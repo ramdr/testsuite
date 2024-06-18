@@ -37,7 +37,7 @@ class Httpbin(Backend):
             self.openshift,
             self.name,
             container_name="httpbin",
-            image="quay.io/jsmadis/httpbin:latest",
+            image="ghcr.io/3scale-qe/go-httpbin:latest",
             ports={"api": 8080},
             selector=Selector(matchLabels=match_labels),
             labels={"app": self.label},
