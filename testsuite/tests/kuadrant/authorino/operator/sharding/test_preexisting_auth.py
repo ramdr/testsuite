@@ -4,6 +4,7 @@ import pytest
 from weakget import weakget
 
 from testsuite.openshift.authorino import AuthorinoCR
+import time
 
 pytestmark = [pytest.mark.authorino, pytest.mark.standalone_only]
 
@@ -49,6 +50,7 @@ def test_preexisting_auth(
     route = setup_route(wildcard_domain, gw)
     auth = setup_authorization(route, "A")
     auth.wait_for_ready()
+    time.sleep(10)
 
     authorino.delete()
     gw.delete()
@@ -59,7 +61,8 @@ def test_preexisting_auth(
     route2 = setup_route(hostname.hostname, gw2)
     auth = setup_authorization(route2, "B")
     auth.wait_for_ready()
-
+    time.sleep(10)
+    
     assert (
         hostname.hostname in auth.model.status.summary.hostsReady
     ), f"Host {hostname.hostname} not found, model: {auth.model}"
