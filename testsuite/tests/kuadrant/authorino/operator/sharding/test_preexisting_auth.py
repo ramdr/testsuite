@@ -65,4 +65,4 @@ def test_preexisting_auth(
     ), f"Host {hostname.hostname} not found, model: {auth.model}"
     response = hostname.client().get("/get")
     assert response.status_code == 200
-    assert response.json()["headers"]["Header"] == '{"anything":"B"}'
+    assert response.json()["headers"]["Header"][0] == '{"anything":"B"}'

@@ -30,7 +30,14 @@ def test_base64(auth, client, string):
     response = client.get("/get", auth=auth, headers={"test": encoded})
     assert response.status_code == 200
 
-    data = response.json()["headers"].get("Header")
-    assert data
+    data_list = response.json()["headers"].get("Header")
+    assert data_list
 
-    assert json.loads(data)["anything"] == string
+    found_string = False
+    for data_str in data_list:
+        data = json.loads(data_str)  # Parse the JSON-formatted string
+        if "anything" in data and data["anything"] == string:
+            found_string = True
+            break
+
+    assert found_string

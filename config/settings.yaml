@@ -1,20 +1,36 @@
 default:
   dynaconf_merge: true
-  cluster: {}
+  cluster: 
+       project: "authorino"                       # Optional: Default namespace for this cluster
+       api_url: "https://api.ocp-preview.middleware-s390x.psi.redhat.com:6443"      # Optional: OpenShift API URL, if None it will OpenShift that you are logged in
+      #  token: "KUADRANT_RULEZ"                   # Optional: OpenShift Token, if None it will OpenShift that you are logged in
+      #  kubeconfig_path: "~/.kube/config"     
   tools:
     project: "tools"
-  cfssl: "cfssl"
+  # cfssl: "/home/cloud-user/go/bin/cfssl"
+  auth0:
+   client_id: "dinosaurdinosaurclient"
+  #  client_secret: "CLIENT_SECRET"
+   url: "AUTH0_URL"
   keycloak:
+    url: "https://keycloak-tools.apps.ocp-preview.middleware-s390x.psi.redhat.com"
+    password: "admin"
     username: "admin"
     test_user:
       username: "testUser"
       password: "testPassword"
+  mockserver:
+    url: "https://mockserver-tools.apps.ocp-preview.middleware-s390x.psi.redhat.com"
+  tracing:
+   backend: "jaeger"                          # Tracing backend
+   collector_url: "rpc://jaeger-collector-grpc-2:4317"  # Tracing collector URL (may be internal)
+   query_url: "https://jaeger-query-tools.apps.ocp-preview.middleware-s390x.psi.redhat.com/"   
   service_protection:
     system_project: "kuadrant-system"
-    project: "kuadrant"
-    project2: "kuadrant2"
+    project: "authorino"
+    project2: "authorino2"
     envoy:
-      image: "quay.io/phala/envoy:v1.28-latest"
+      image: "quay.io/rhn-support-ramdr/envoy:v1.29.2-latest"
     gateway:
        project: "istio-system"
        name: "istio-ingressgateway"

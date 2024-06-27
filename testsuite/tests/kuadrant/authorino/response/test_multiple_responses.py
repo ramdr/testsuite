@@ -24,12 +24,11 @@ def test_multiple_responses(auth, client):
     assert response.status_code == 200
     data = response.json()["headers"].get("Header", None)
     assert data is not None, "Headers from first response (Header) is missing"
-
-    extra_data = json.loads(data)
+    extra_data = json.loads(data[0])
     assert extra_data["anything"] == "one"
 
     data = response.json()["headers"].get("X-Test", None)
     assert data is not None, "Headers from second response (X-Test) is missing"
 
-    extra_data = json.loads(data)
+    extra_data = json.loads(data[0])
     assert extra_data["anything"] == "two"

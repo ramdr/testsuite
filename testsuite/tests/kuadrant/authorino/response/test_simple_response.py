@@ -22,6 +22,5 @@ def test_simple_response_with(auth, client):
     assert response.status_code == 200
     data = response.json()["headers"].get("Header", None)
     assert data is not None, "Header from response (Header) is missing"
-
-    extra_data = json.loads(data)
+    extra_data = json.loads(data[0])
     assert extra_data["anything"] == "one"

@@ -51,7 +51,7 @@ def authorization(client_secret, authorization, keycloak, client, blame):
         1. `/anything` - accessed by anyone, not enforcing UMA
         2. `/anything/1` - accessed only by default Keycloak user (username = `keycloak.test_username`).
     """
-    keycloak.client.create_uma_resource(blame("anything"), ["/anything"])
+    keycloak.client.create_uma_resource(blame("anything"), ["/anything/"])
     keycloak.client.create_uma_resource(blame("anything1"), ["/anything/1"], keycloak.test_username)
     # Sometimes RHSSO does not instantly propagate new resources.
     # To prevent the flakiness of these tests, we are adding a new retry code: 404
@@ -64,7 +64,8 @@ def authorization(client_secret, authorization, keycloak, client, blame):
 
 def test_uma_resource_authorized(client, auth):
     """Test correct auth for default Keycloak user for both endpoints"""
-    response = client.get("/anything", auth=auth)
+    print(auth.username)
+    response = client.get("/anything/",auth=auth)
     assert response.status_code == 200
     response = client.get("/anything/1", auth=auth)
     assert response.status_code == 200
@@ -72,7 +73,7 @@ def test_uma_resource_authorized(client, auth):
 
 def test_uma_resource_forbidden(client, auth2):
     """Test incorrect access for new user for resource that is owned by another user"""
-    response = client.get("/anything", auth=auth2)
+    response = client.get("/anything/", auth=auth2)
     assert response.status_code == 200
     response = client.get("/anything/1", auth=auth2)
     assert response.status_code == 403
