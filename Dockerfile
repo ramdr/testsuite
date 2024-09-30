@@ -26,9 +26,10 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
 	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl-bundle_1.6.5_linux_s390x >/usr/bin/cfssl && \
+ 	chmod +x /usr/bin/cfssl \
     else \
 	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl && \
-    	chmod +x /usr/bin/cfssl \
+    	chmod +x /usr/bin/cfssl 
      
 RUN python3.11 -m pip install cryptography==3.3.2
 
