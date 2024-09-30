@@ -10,7 +10,7 @@ env:
   IMG_REGISTRY_ORG: rhn-support-ramdr
   IMG_NAME: kuadrant
   IMG_TAGS: unstable
-  TARGET_PLATFORM: linux/s390x  
+  TARGET_PLATFORM: linux/amd64,linux/s390x  
 
 jobs:
   build:
