@@ -23,7 +23,7 @@ RUN curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl" && \
 RUN curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl && \
     chmod +x /usr/bin/cfssl
 
-RUN PYTHONOPTIMIZE=1 python3.11 -m pip install --no-cache-dir cryptography
+RUN python3.11 -m pip install --no-cache-dir cryptography --only-binary :all:
 
 RUN python3.11 -m pip --no-cache-dir install poetry
 
