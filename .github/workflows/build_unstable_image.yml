@@ -15,7 +15,7 @@ env:
 jobs:
   build:
     name: Build and push image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         platform: [linux/amd64, linux/s390x]
