@@ -34,6 +34,14 @@ jobs:
           registry: ${{ env.IMG_REGISTRY_HOST }}
           username: ${{ secrets.IMG_REGISTRY_USERNAME }}
           password: ${{ secrets.IMG_REGISTRY_TOKEN }}
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-build-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ github.ref }}-
+            ${{ runner.os }}-build-
       - name: Build and Push Image
         id: build-image
         uses: docker/build-push-action@v2
