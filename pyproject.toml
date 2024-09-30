@@ -17,7 +17,7 @@ dnspython = "*"
 python-keycloak = ">=3.6"
 python-jose = "*"
 lxml = "*"
-cryptography = "*"
+cryptography = "==3.3.2"
 backoff = "*"
 httpx = { version = "*", extras = ["http2"] }
 openshift-client = ">=2"
