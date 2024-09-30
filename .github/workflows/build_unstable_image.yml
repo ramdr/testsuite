@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Set up Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH  # Add Rust to the PATH
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Build Image
