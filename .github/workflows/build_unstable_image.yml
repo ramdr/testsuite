@@ -23,7 +23,8 @@ jobs:
         id: build-image
         uses: redhat-actions/buildah-build@v2
         with:
-          image: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}:${{ env.IMG_TAGS }}  # Full image name with tag
+          image: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }} # Full image name with tag
+          tags: ${{ env.IMG_TAGS }}
           layers: true
           platforms: ${{ env.TARGET_PLATFORM }}  # Specify the target platform
           containerfiles: |
