@@ -10,6 +10,7 @@ env:
   IMG_REGISTRY_ORG: rhn-support-ramdr
   IMG_NAME: kuadrant
   IMG_TAGS: unstable
+  TARGET_PLATFORM: linux/s390x  
 
 jobs:
   build:
@@ -25,7 +26,7 @@ jobs:
           image: ${{ env.IMG_NAME }}
           tags: ${{ env.IMG_TAGS }}
           layers: true
-          platforms: linux/s390x
+          platforms: ${{ env.TARGET_PLATFORM }}
           containerfiles: |
             ./Dockerfile
       - name: Push Image
