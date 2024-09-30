@@ -19,10 +19,6 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Set up Rust
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH  # Add Rust to the PATH
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Build Image
@@ -32,7 +28,8 @@ jobs:
           image: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }} # Full image name with tag
           tags: ${{ env.IMG_TAGS }}
           layers: true
-          platforms: ${{ env.TARGET_PLATFORM }}  # Specify the target platform
+          build-args: |
+            TARGETARCH=${{ env.TARGET_PLATFORM }}  # Specify the target platform
           containerfiles: |
             ./Dockerfile
       - name: Push Image
