@@ -15,13 +15,21 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
     fi && \
     dnf clean all
 
+RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
+	curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl" && \
+    	mv kubectl /usr/local/bin &&\
+    	chmod +x /usr/local/bin/kubectl \
+    else \
+       	curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl" && \
+    	mv kubectl /usr/local/bin &&\
+    	chmod +x /usr/local/bin/kubectl 
 
-RUN curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl" && \
-    mv kubectl /usr/local/bin &&\
-    chmod +x /usr/local/bin/kubectl
-
-RUN curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl && \
-    chmod +x /usr/bin/cfssl
+RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
+	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl-bundle_1.6.5_linux_s390x >/usr/bin/cfssl && \
+    else \
+	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl && \
+    	chmod +x /usr/bin/cfssl \
+     
 RUN python3.11 -m pip install cryptography==3.3.2
 
 RUN python3.11 -m pip --no-cache-dir install poetry
