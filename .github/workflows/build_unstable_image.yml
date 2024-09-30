@@ -25,7 +25,7 @@ jobs:
           image: ${{ env.IMG_NAME }}
           tags: ${{ env.IMG_TAGS }}
           layers: true
-          platforms: linux/amd64,linux/ppc64le,linux/s390x
+          platforms: linux/amd64,linux/s390x
           containerfiles: |
             ./Dockerfile
       - name: Push Image
