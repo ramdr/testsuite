@@ -19,12 +19,15 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Setup buildah 
-        uses: redhat-actions/buildah-build@v2
       - name: Build Image
         id: build-image
-        run: |
-          buildah bud --platform ${{ env.TARGET_PLATFORM }} -t ${{ env.IMG_NAME }} --layers ./Dockerfile
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}:${{ env.IMG_TAGS }}  # Full image name with tag
+          layers: true
+          platforms: ${{ env.TARGET_PLATFORM }}  # Specify the target platform
+          containerfiles: |
+            ./Dockerfile
       - name: Push Image
         if: ${{ !env.ACT }}
         id: push-to-quay
