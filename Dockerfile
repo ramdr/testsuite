@@ -6,7 +6,7 @@ Bind dynaconf settings to /opt/secrets.yaml \
 Bind kubeconfig to /opt/kubeconfig \
 Bind a dir to /test-run-results to get reports "
 
-RUN useradd --no-log-init -u 1001 -g root -m testsuite
+#RUN useradd --no-log-init -u 1001 -g root -m testsuite
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
       dnf install -y python3.11 python3.11-pip python3.11-devel openssl-devel libffi-devel make git gcc gcc-c++ rust cargo;  \
