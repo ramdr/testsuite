@@ -18,31 +18,31 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [linux/amd64]
+        platform: [linux/amd64,linux/s390x]
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Determine RAM size and set swap space
-        run: |
-          # Get the total RAM size in MB
-          RAM_SIZE=$(free -m | awk '/^Mem:/{print $2}')
-          echo "Total RAM: ${RAM_SIZE} MB"
+      # - name: Determine RAM size and set swap space
+      #   run: |
+      #     # Get the total RAM size in MB
+      #     RAM_SIZE=$(free -m | awk '/^Mem:/{print $2}')
+      #     echo "Total RAM: ${RAM_SIZE} MB"
 
-          # Determine swap space size based on RAM
-          if [ "$RAM_SIZE" -le 2048 ]; then
-            SWAP_SIZE=2048M  # If RAM is 2GB or less, set swap to 2GB
-          elif [ "$RAM_SIZE" -le 8192 ]; then
-            SWAP_SIZE=4096M  # If RAM is between 2GB and 8GB, set swap to 4GB
-          else
-            SWAP_SIZE=8192M  # If RAM is more than 8GB, set swap to 8GB
-          fi
+      #     # Determine swap space size based on RAM
+      #     if [ "$RAM_SIZE" -le 2048 ]; then
+      #       SWAP_SIZE=2048M  # If RAM is 2GB or less, set swap to 2GB
+      #     elif [ "$RAM_SIZE" -le 8192 ]; then
+      #       SWAP_SIZE=4096M  # If RAM is between 2GB and 8GB, set swap to 4GB
+      #     else
+      #       SWAP_SIZE=8192M  # If RAM is more than 8GB, set swap to 8GB
+      #     fi
 
-          echo "Setting swap space to ${SWAP_SIZE}"
-          sudo fallocate -l $SWAP_SIZE /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
-          sudo swapon --show
+      #     echo "Setting swap space to ${SWAP_SIZE}"
+      #     sudo fallocate -l $SWAP_SIZE /swapfile
+      #     sudo chmod 600 /swapfile
+      #     sudo mkswap /swapfile
+      #     sudo swapon /swapfile
+      #     sudo swapon --show
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
