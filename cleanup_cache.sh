@@ -11,7 +11,7 @@ echo "Cache Hit: $CACHE_HIT"
 echo "Restore Key: $RESTORE_KEY"
 
 # Proceed only if the cache was hit
-if [[ "$CACHE_HIT" == "false" ]]; then
+if [[ "$CACHE_HIT" == "true" ]]; then
   # Retrieve cache list
   caches=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
     "https://api.github.com/repos/$REPO/actions/caches")
