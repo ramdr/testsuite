@@ -34,6 +34,8 @@ RUN python3.11 -m pip install cryptography==3.3.2
 
 RUN echo "This is a test of cache"
 
+RUN echo "This is a test of cache2"
+
 RUN python3.11 -m pip --no-cache-dir install poetry
 
 WORKDIR /opt/workdir/kuadrant-testsuite
