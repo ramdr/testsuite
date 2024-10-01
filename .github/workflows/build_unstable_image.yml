@@ -63,36 +63,27 @@ jobs:
             ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}
           tags: |
             type=raw,value=unstable
-      # - name: Cache Docker layers
-      #   id: cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /tmp/.buildx-cache
-      #     key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-
-      # - name: Save restore key
-      #   run: |
-      #     echo "RESTORE_STATE=${{ steps.cache.outputs.cache-hit }}" >> $GITHUB_ENV
-      #     echo "RESTORE_KEY=${{ steps.cache.outputs.cache-key }}" >> $GITHUB_ENV
-      #     echo "Cache key: ${{ steps.cache.outputs.cache-key }}"
-      #     echo "Cache key: ${{ steps.cache.outputs.cache-primary-key }}"
-      #     echo "Cache key: ${{ steps.cache.outputs.cache-matched-key }}"
-      #     echo "Cache key: ${{ steps.cache.outputs.restore-keys}}"
-      #     echo "Cache key: ${{ steps.cache.outputs.cache-version}}"
-      # - name: Build and Push Image
-      #   id: build-image
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     tags: ${{ steps.metadata.outputs.tags }}
-      #     labels: ${{ steps.metadata.outputs.labels }}
-      #     push: true
-      #     build-args: |
-      #       TARGETARCH=${{ matrix.platform }}
-      #     platforms: ${{ matrix.platform }}
-      #     context: .
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache
+      - name: Cache Docker layers
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-
+      - name: Build and Push Image
+        id: build-image
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          push: true
+          build-args: |
+            TARGETARCH=${{ matrix.platform }}
+          platforms: ${{ matrix.platform }}
+          context: .
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Cleanup Cache
         if: success()  # Only run if the build was successful
         run: |
