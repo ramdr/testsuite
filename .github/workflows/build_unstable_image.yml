@@ -80,6 +80,7 @@ jobs:
           push: true
           build-args: |
             TARGETARCH=${{ matrix.platform }}
+            BASE_IMAGE=${{ matrix.platform == 'linux/amd64' && 'quay.io/centos/centos:stream9' || 'quay.io/repository/rhn-support-ramdr/centosbase:latest' }}
           platforms: ${{ matrix.platform }}
           context: .
           cache-from: type=local,src=/tmp/.buildx-cache
