@@ -74,7 +74,7 @@ jobs:
       - name: Save restore key
         run: |
           echo "RESTORE_STATE=${{ steps.cache.outputs.cache-hit }}" >> $GITHUB_ENV
-          echo "RESTORE_KEY=${{ steps.cache.outputs.cache-matched-key }}" >> $GITHUB_ENV
+          echo "RESTORE_KEY=${{ steps.cache.outputs.cache-key }}" >> $GITHUB_ENV
           echo "Cache key: ${{ steps.cache.outputs.cache-key }}"
           echo "Cache key: ${{ steps.cache.outputs.cache-primary-key }}"
           echo "Cache key: ${{ steps.cache.outputs.cache-matched-key }}"
