@@ -67,9 +67,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-
+            ${{ runner.os }}-build-${{ matrix.platform }}-
       - name: Build and Push Image
         id: build-image
         uses: docker/build-push-action@v2
