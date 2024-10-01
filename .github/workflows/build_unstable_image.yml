@@ -71,7 +71,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-
-       - name: Set BASE_IMAGE based on platform
+      - name: Set BASE_IMAGE based on platform
         id: set_base_image
         run: |
           if [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
