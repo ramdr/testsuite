@@ -4,7 +4,7 @@
 REPO="ramdr/testsuite"  # Replace with your repository
 GITHUB_TOKEN=$GH_PAT  # Use the token passed as an environment variable
 NAME_PATTERN="Linux-build"  
-KEEP_LAST=2  
+KEEP_LAST=1  
 
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
   "https://api.github.com/repos/$REPO/actions/caches")
