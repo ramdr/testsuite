@@ -32,6 +32,8 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
      
 RUN python3.11 -m pip install cryptography==3.3.2
 
+RUN echo "This is a test of cache"
+
 RUN python3.11 -m pip --no-cache-dir install poetry
 
 WORKDIR /opt/workdir/kuadrant-testsuite
