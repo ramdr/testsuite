@@ -69,7 +69,7 @@ jobs:
         id: build-image
         uses: docker/build-push-action@v2
         with:
-          tags: ${{ env.IMG_NAME }}:${{ env.IMG_TAGS }}
+          tags: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}:${{ env.IMG_TAGS }}
           push: true
           build-args: |
             TARGETARCH=${{ matrix.platform }}
