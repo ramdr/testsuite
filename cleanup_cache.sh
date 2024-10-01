@@ -10,17 +10,17 @@ response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
   "https://api.github.com/repos/$REPO/actions/caches")
 echo "list of images"
 echo "$response"
-# # Check if any caches were found
-# if echo "$response" | jq -e '.actions_caches | length == 0' > /dev/null; then
-#   echo "No caches found."
-#   exit 0
-# fi
+# Check if any caches were found
+if echo "$response" | jq -e '.actions_caches | length == 0' > /dev/null; then
+  echo "No caches found."
+  exit 0
+fi
 
-# # Filter caches by name pattern and ensure they are not null
-# caches=$(echo "$response" | jq -r --arg pattern "$NAME_PATTERN" \
-#   '.actions_caches[] | select(.name | contains($pattern)) | {id: .id, name: .name, created_at: .created_at}')
-
-# echo "$caches"
+# Filter caches by name pattern and ensure they are not null
+caches=$(echo "$response" | jq -r --arg pattern "$NAME_PATTERN" \
+  '.actions_caches[] | select(.name | contains($pattern)) | {id: .id, name: .name, created_at: .created_at}')
+echo "Filter caches by name pattern and ensure they are not null"
+echo "$caches"
 
 # # Convert the output to an array and ensure it's not empty
 # caches_array=($(echo "$caches" | jq -r '. | length'))
