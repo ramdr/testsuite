@@ -22,42 +22,42 @@ caches=$(echo "$response" | jq -r --arg pattern "$NAME_PATTERN" \
 echo "Filter caches by name pattern and ensure they are not null"
 echo "$caches"
 
-# # Convert the output to an array and ensure it's not empty
-# caches_array=($(echo "$caches" | jq -r '. | length'))
+# Convert the output to an array and ensure it's not empty
+caches_array=($(echo "$caches" | jq -r '. | length'))
+echo # Convert the output to an array and ensure it's not empty
+echo "$caches_array"
 
-# echo "$caches_array"
+if [[ ${caches_array[0]} -eq 0 ]]; then
+  echo "No caches found matching the pattern."
+  exit 0
+fi
 
-# if [[ ${caches_array[0]} -eq 0 ]]; then
-#   echo "No caches found matching the pattern."
-#   exit 0
-# fi
+# Sort caches by creation date (oldest first) and prepare for deletion
+caches_to_delete=$(echo "$caches" | jq -s --argjson keep_last "$KEEP_LAST" 'sort_by(.created_at) | .[:-($keep_last | tonumber)]')
 
-# # Sort caches by creation date (oldest first) and prepare for deletion
-# caches_to_delete=$(echo "$caches" | jq -s --argjson keep_last "$KEEP_LAST" 'sort_by(.created_at) | .[:-($keep_last | tonumber)]')
+# Check if there are caches to delete
+if [[ $(echo "$caches_to_delete" | jq 'length') -eq 0 ]]; then
+  echo "No older caches to delete."
+  exit 0
+fi
 
-# # Check if there are caches to delete
-# if [[ $(echo "$caches_to_delete" | jq 'length') -eq 0 ]]; then
-#   echo "No older caches to delete."
-#   exit 0
-# fi
+# Print the caches that will be deleted
+echo "Caches to delete:"
+echo "$caches_to_delete" | jq .
 
-# # Print the caches that will be deleted
-# echo "Caches to delete:"
-# echo "$caches_to_delete" | jq .
+# Iterate over the caches and delete each one
+echo "$caches_to_delete" | jq -c '.[]' | while read -r cache; do
+  cache_id=$(echo "$cache" | jq -r '.id')
+  cache_name=$(echo "$cache" | jq -r '.name')
 
-# # Iterate over the caches and delete each one
-# echo "$caches_to_delete" | jq -c '.[]' | while read -r cache; do
-#   cache_id=$(echo "$cache" | jq -r '.id')
-#   cache_name=$(echo "$cache" | jq -r '.name')
+  # Delete the cache
+  delete_response=$(curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+    "https://api.github.com/repos/$REPO/actions/caches/$cache_id")
 
-#   # Delete the cache
-#   delete_response=$(curl -s -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-#     "https://api.github.com/repos/$REPO/actions/caches/$cache_id")
-
-#   # Print the delete response
-#   if [[ $(echo "$delete_response" | jq -r '.message') == "Not Found" ]]; then
-#     echo "Cache $cache_name (ID: $cache_id) not found for deletion."
-#   else
-#     echo "Deleted cache: $cache_name (ID: $cache_id)"
-#   fi
-# done
+  # Print the delete response
+  if [[ $(echo "$delete_response" | jq -r '.message') == "Not Found" ]]; then
+    echo "Cache $cache_name (ID: $cache_id) not found for deletion."
+  else
+    echo "Deleted cache: $cache_name (ID: $cache_id)"
+  fi
+done
