@@ -9,12 +9,7 @@ Bind a dir to /test-run-results to get reports "
 
 RUN useradd --no-log-init -u 1001 -g root -m testsuite
 
-RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
-      dnf install -y python3.11 python3.11-pip python3.11-devel openssl-devel libffi-devel make git gcc gcc-c++ rust cargo;  \
-    else \
-      dnf install -y python3.11 python3.11-pip make git; \
-    fi && \
-    dnf clean all
+RUN dnf install -y python3.11 python3.11-pip make git && dnf clean all
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
 	curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl"; \
@@ -31,11 +26,7 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
     fi && \
     chmod +x /usr/bin/cfssl
      
-RUN python3.11 -m pip install cryptography==3.3.2
 
-RUN echo "This is a test of cache"
-
-RUN echo "This is a test of cache2"
 
 RUN python3.11 -m pip --no-cache-dir install poetry
 
