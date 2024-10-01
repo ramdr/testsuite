@@ -98,7 +98,7 @@ jobs:
         run: |
           echo "Cleaning up cache..."
           chmod +x ./cleanup_cache.sh 
-          ./cleanup_cache.sh  ${{ env.RESTORE_STATE}}
+          ./cleanup_cache.sh  
         env:
           GH_PAT: ${{ secrets.GH_PAT }}  
       - name: List cache directory
