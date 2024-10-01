@@ -79,6 +79,7 @@ jobs:
           echo "Cache key: ${{ steps.cache.outputs.cache-primary-key }}"
           echo "Cache key: ${{ steps.cache.outputs.cache-matched-key }}"
           echo "Cache key: ${{ steps.cache.outputs.restore-keys}}"
+          echo "Cache key: ${{ steps.cache.outputs.cache-version}}"
       - name: Build and Push Image
         id: build-image
         uses: docker/build-push-action@v2
