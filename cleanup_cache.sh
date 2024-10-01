@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Variables
 REPO="ramdr/testsuite"  # Replace with your repository
@@ -8,7 +8,7 @@ KEEP_LAST=2
 
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
   "https://api.github.com/repos/$REPO/actions/caches")
-
+echo "$response"
 # Check if any caches were found
 if echo "$response" | jq -e '.actions_caches | length == 0' > /dev/null; then
   echo "No caches found."
@@ -19,8 +19,12 @@ fi
 caches=$(echo "$response" | jq -r --arg pattern "$NAME_PATTERN" \
   '.actions_caches[] | select(.name | contains($pattern)) | {id: .id, name: .name, created_at: .created_at}')
 
+echo "$caches"
+
 # Convert the output to an array and ensure it's not empty
 caches_array=($(echo "$caches" | jq -r '. | length'))
+
+echo "$caches_array"
 
 if [[ ${caches_array[0]} -eq 0 ]]; then
   echo "No caches found matching the pattern."
