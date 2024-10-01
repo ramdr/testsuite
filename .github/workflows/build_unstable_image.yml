@@ -70,7 +70,7 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ matrix.platform }}-
+            ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
       - name: Save restore key
         run: |
           echo "RESTORE_STATE=${{ steps.cache.outputs.cache-hit }}" >> $GITHUB_ENV
