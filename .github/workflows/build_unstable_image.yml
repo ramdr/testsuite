@@ -71,6 +71,14 @@ jobs:
           key: ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-build-${{ matrix.platform }}-${{ github.ref }}-
+       - name: Set BASE_IMAGE based on platform
+        id: set_base_image
+        run: |
+          if [[ "${{ matrix.platform }}" == "linux/amd64" ]]; then
+            echo "BASE_IMAGE=quay.io/centos/centos:stream9" >> $GITHUB_ENV
+          else
+            echo "BASE_IMAGE=quay.io/repository/rhn-support-ramdr/centosbase:latest" >> $GITHUB_ENV
+          fi
       - name: Build and Push Image
         id: build-image
         uses: docker/build-push-action@v2
@@ -80,7 +88,7 @@ jobs:
           push: true
           build-args: |
             TARGETARCH=${{ matrix.platform }}
-            BASE_IMAGE=${{ matrix.platform == 'linux/amd64' && 'quay.io/centos/centos:stream9' || 'quay.io/repository/rhn-support-ramdr/centosbase:latest' }}
+            BASE_IMAGE=${{ env.BASE_IMAGE }}
           platforms: ${{ matrix.platform }}
           context: .
           cache-from: type=local,src=/tmp/.buildx-cache
