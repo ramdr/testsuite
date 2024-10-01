@@ -74,7 +74,7 @@ jobs:
       - name: Save restore key
         run: |
           echo "RESTORE_STATE=${{ steps.cache.outputs.cache-hit }}" >> $GITHUB_ENV
-          echo "RESTORE_KEY= ${{ steps.cache.outputs.cache-key }}" >> $GITHUB_ENV
+          echo "RESTORE_KEY=${{ steps.cache.outputs.cache-key }}" >> $GITHUB_ENV
       - name: Build and Push Image
         id: build-image
         uses: docker/build-push-action@v2
