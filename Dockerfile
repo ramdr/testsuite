@@ -16,9 +16,9 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
     dnf clean all
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
-	curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl"  && \
+	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl  && \
     else \
-       	curl -LO "https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl"  && \
+       	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl  && \
     fi && \
     mv kubectl /usr/local/bin &&\
     chmod +x /usr/local/bin/kubectl
