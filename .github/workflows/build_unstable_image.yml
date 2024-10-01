@@ -75,3 +75,8 @@ jobs:
             TARGETARCH=${{ matrix.platform }}
           platforms: ${{ matrix.platform }}
           context: .
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: List cache directory
+        run: ls -la /tmp/.buildx-cache
