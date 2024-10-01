@@ -18,7 +18,7 @@ fi
 
 # Filter caches by name pattern and ensure they are not null
 caches=$(echo "$response" | jq -r --arg pattern "$NAME_PATTERN" \
-  '.actions_caches[] | select(.name | contains($pattern)) | {id: .id, name: .name, created_at: .created_at}')
+  '.actions_caches[] | select(.key | contains($pattern)) | {id: .id, name: .key, created_at: .created_at}')
 echo "Filter caches by name pattern and ensure they are not null"
 echo "$caches"
 
