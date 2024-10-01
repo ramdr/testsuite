@@ -55,6 +55,17 @@ jobs:
           registry: ${{ env.IMG_REGISTRY_HOST }}
           username: ${{ secrets.IMG_REGISTRY_USERNAME }}
           password: ${{ secrets.IMG_REGISTRY_TOKEN }}
+      - name: Setting Quay metadata
+        uses: docker/metadata-action@v4
+        id: metadata
+        with:
+          images: |
+            ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}
+          flavor: |
+            unstable=true
+          tags: |
+            type=sha
+
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -69,7 +80,8 @@ jobs:
         id: build-image
         uses: docker/build-push-action@v2
         with:
-          tags: ${{ env.IMG_REGISTRY_HOST }}/${{ env.IMG_REGISTRY_ORG }}/${{ env.IMG_NAME }}:${{ env.IMG_TAGS }}
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
           push: true
           build-args: |
             TARGETARCH=${{ matrix.platform }}
