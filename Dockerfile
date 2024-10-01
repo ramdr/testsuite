@@ -16,9 +16,9 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
     dnf clean all
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
-	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl  && \
+	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/amd64/kubectl  \
     else \
-       	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl  && \
+       	curl -LO https://dl.k8s.io/release/v1.30.2/bin/linux/s390x/kubectl  \
     fi && \
     mv kubectl /usr/local/bin &&\
     chmod +x /usr/local/bin/kubectl
@@ -26,7 +26,7 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
 	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl-bundle_1.6.5_linux_s390x >/usr/bin/cfssl \
     else \
-	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl  && \
+	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 >/usr/bin/cfssl  \
     fi && \
     chmod +x /usr/bin/cfssl
      
