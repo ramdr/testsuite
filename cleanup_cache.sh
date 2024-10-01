@@ -1,5 +1,5 @@
  #!/bin/bash
-
+ 
 # Variables
 REPO="ramdr/testsuite"  # Replace with your repository
 GITHUB_TOKEN=$GH_PAT  # Use the token passed as an environment variable
