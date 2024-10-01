@@ -89,6 +89,7 @@ jobs:
         if: success()  # Only run if the build was successful
         run: |
           echo "Cleaning up cache..."
+          chmod +x ./cleanup_cache.sh 
           ./cleanup_cache.sh
         env:
           GH_PAT: ${{ secrets.GH_PAT }}  
