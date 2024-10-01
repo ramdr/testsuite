@@ -9,7 +9,12 @@ caches=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
   "https://api.github.com/repos/$REPO/actions/caches")
 
 # Extract the cache ID associated with the restore key
-cache_id=$(echo "$caches" | jq -r --arg key "Linux-build-linux/amd64-" '.actions_caches[] | select(.name | startswith($key)) | .id')
+cache_id=$(echo "$caches" | jq -r --arg key "Linux-build-linux/amd64-" '
+  .actions_caches[]? | 
+  select(.name != null and (.name | startswith($key))) | 
+  .id
+')
+#cache_id=$(echo "$caches" | jq -r --arg key "Linux-build-linux/amd64-" '.actions_caches[] | select(.name | startswith($key)) | .id')
 
 # Delete the cache if it exists
 if [ -n "$cache_id" ]; then
