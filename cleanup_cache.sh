@@ -17,11 +17,12 @@ if [[ "$CACHE_HIT" == "true" ]]; then
     "https://api.github.com/repos/$REPO/actions/caches")
 
   # Extract the cache ID associated with the restore key
-  cache_id=$(echo "$caches" | jq -r --arg key "$RESTORE_KEY" '
-    .actions_caches[]? | 
-    select(.name != null and (.name | startswith($key))) | 
-    .id
-  ')
+  # cache_id=$(echo "$caches" | jq -r --arg key "$RESTORE_KEY" '
+  #   .actions_caches[]? | 
+  #   select(.name != null and (.name | startswith($key))) | 
+  #   .id
+  # ')
+  cache_id=$(echo "$caches" | jq -r --arg key "Linux-build-linux/amd64-refs/heads/main" '.actions_caches[] | select(.name | startswith($key)) | .id')
 
   # Delete the cache if it exists
   if [ -n "$cache_id" ]; then
