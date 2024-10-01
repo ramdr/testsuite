@@ -97,10 +97,8 @@ jobs:
         run: |
           echo "Cleaning up cache..."
           chmod +x ./cleanup_cache.sh 
-          ./cleanup_cache.sh
+          ./cleanup_cache.sh  ${{ env.RESTORE_STATE}}
         env:
           GH_PAT: ${{ secrets.GH_PAT }}  
-          RESTORE_STATE: ${{ env.RESTORE_STATE}}
-          RESTORE_KEY: $${{ env.RESTORE_KEY}}
       - name: List cache directory
         run: ls -la /tmp/.buildx-cache
