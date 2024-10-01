@@ -3,8 +3,16 @@
 # Variables
 REPO="ramdr/testsuite"  # Replace with your repository
 GITHUB_TOKEN=$GH_PAT  # Use the token passed as an environment variable
-NAME_PATTERN="Linux-build"  
+ 
 KEEP_LAST=1  
+PLATFORM=$1
+
+if "$PLATFORM" = "linux/s390x"; then
+   NAME_PATTERN="Linux-build-linux/s390x"
+else
+   NAME_PATTERN="Linux-build-linux/amd64"
+fi
+
 
 response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
   "https://api.github.com/repos/$REPO/actions/caches")
