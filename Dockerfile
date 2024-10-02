@@ -7,7 +7,7 @@ Bind dynaconf settings to /opt/secrets.yaml \
 Bind kubeconfig to /opt/kubeconfig \
 Bind a dir to /test-run-results to get reports "
 
-RUN id "testsuite" && echo 'User already exists' || (useradd --no-log-init -u 1001 -g root -m testsuite && echo 'User created')
+RUN useradd --no-log-init -u 1001 -g root -m testsuite 
 
 RUN dnf install -y python3.11 python3.11-pip make git && dnf clean all
 
