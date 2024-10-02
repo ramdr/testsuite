@@ -20,7 +20,7 @@ RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
     chmod +x /usr/local/bin/kubectl
 
 RUN if [ "$TARGETARCH" = "linux/s390x" ]; then \
-	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl-bundle_1.6.5_linux_s390x -o /usr/bin/cfssl; \
+	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_s390x  -o /usr/bin/cfssl; \
     else \
 	curl -L https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64 -o /usr/bin/cfssl; \
     fi && \
